@@ -80,6 +80,7 @@ object WeatherModule {
             val modifiedUrl = originalUrl
                 .newBuilder()
                 .addQueryParameter("appid", WeatherInfoApi.API_KEY)
+                .addQueryParameter("units", WeatherInfoApi.UNIT_METRIC)
                 .build()
 
             val requestBuilder = originalRequest

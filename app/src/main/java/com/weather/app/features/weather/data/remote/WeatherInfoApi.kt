@@ -22,5 +22,9 @@ interface WeatherInfoApi {
     companion object {
         const val BASE_URL = "https://api.openweathermap.org/data/2.5"
         const val API_KEY = ""//NOTE: This should not be stored here for production ready apps
+        const val UNIT_METRIC = "metric"
+        const val WEATHER_CLEAR = "Clear"
+        const val WEATHER_CLOUDS = "Clouds"
+        const val WEATHER_RAIN = "Rain"
     }
 }

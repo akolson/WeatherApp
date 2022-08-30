@@ -86,7 +86,7 @@ class WeatherInfoViewModel @Inject constructor(
         }.launchIn(this)
     }
 
-    private fun onLocationPermissionDenied() {
+    fun onLocationPermissionDenied() {
         showSnackbar("This app requires location permission to work")
     }
 
