@@ -26,5 +26,5 @@
         android:gravity="top"
         android:textColor="@color/white"
         android:textSize="12sp"
-        tools:text="o" />
+        android:text="@string/symbol_degrees" />
 </LinearLayout>

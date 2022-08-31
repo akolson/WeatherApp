@@ -51,9 +51,9 @@
                     android:layout_marginStart="10dp"
                     android:fontFamily="@font/poppins_light"
                     android:gravity="top"
+                    android:text="@string/symbol_degrees"
                     android:textColor="@color/white"
-                    android:textSize="35sp"
-                    tools:text="o" />
+                    android:textSize="35sp" />
             </LinearLayout>
 
             <TextView
@@ -81,7 +81,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="2dp"
+            android:layout_height="1.5dp"
             android:background="@color/white" />
 
         <androidx.recyclerview.widget.RecyclerView

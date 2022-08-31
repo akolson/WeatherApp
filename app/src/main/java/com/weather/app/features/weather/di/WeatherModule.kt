@@ -3,6 +3,7 @@ package com.weather.app.features.weather.di
 import android.app.Application
 import androidx.room.Room
 import com.google.gson.Gson
+import com.weather.app.features.weather.data.local.Converters
 import com.weather.app.features.weather.data.local.WeatherInfoDatabase
 import com.weather.app.features.weather.data.remote.GoogleLocationDataSource
 import com.weather.app.features.weather.data.remote.WeatherInfoApi
@@ -19,6 +20,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -67,12 +69,12 @@ object WeatherModule {
             app,
             WeatherInfoDatabase::class.java,
             "weather_app_db"
-        ).addTypeConverter(GsonParser(Gson())).build()
+        ).addTypeConverter(Converters(GsonParser(Gson()))).build()
     }
 
     @Provides
     @Singleton
-    fun getInterceptor(): Interceptor {
+    fun provideInterceptor(): Interceptor {
         return Interceptor { chain ->
             val originalRequest = chain.request()
             val originalUrl = originalRequest.url
@@ -94,7 +96,11 @@ object WeatherModule {
     @Provides
     @Singleton
     fun provideOkHttpClient(interceptor: Interceptor): OkHttpClient {
+        val loggingInterceptor = HttpLoggingInterceptor()
+            .setLevel(HttpLoggingInterceptor.Level.BODY)
+
         return OkHttpClient.Builder()
+            .addInterceptor(loggingInterceptor)
             .addInterceptor(interceptor)
             .build()
     }

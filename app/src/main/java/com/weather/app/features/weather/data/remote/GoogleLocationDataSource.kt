@@ -53,11 +53,11 @@ class GoogleLocationDataSource @Inject constructor(context: Context) {
         fusedLocationClient.removeLocationUpdates(locationCallback)
     }
 
-    private fun setLocation(location: Location) {
+    private fun setLocation(location: Location?) {
         locationSubject.onNext(
             LocationEntity(
-                lat = location.latitude,
-                long = location.longitude
+                lat = location?.latitude ?: 0.0,
+                long = location?.longitude ?: 0.0
             )
         )
     }

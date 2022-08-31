@@ -59,7 +59,7 @@ class WeatherInfoViewModel @Inject constructor(
             when (result) {
                 is Resource.Success -> {
                     _weatherInfoState.postValue(
-                        _weatherInfoState.value?.copy(
+                        WeatherInfoState(
                             weatherInfo = result.data,
                             isLoading = false
                         )
@@ -67,7 +67,7 @@ class WeatherInfoViewModel @Inject constructor(
                 }
                 is Resource.Error -> {
                     _weatherInfoState.postValue(
-                        _weatherInfoState.value?.copy(
+                        WeatherInfoState(
                             weatherInfo = result.data,
                             isLoading = false
                         )
@@ -76,9 +76,9 @@ class WeatherInfoViewModel @Inject constructor(
                 }
                 is Resource.Loading -> {
                     _weatherInfoState.postValue(
-                        _weatherInfoState.value?.copy(
+                        WeatherInfoState(
                             weatherInfo = result.data,
-                            isLoading = true
+                            isLoading = false
                         )
                     )
                 }
