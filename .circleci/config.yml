@@ -2,7 +2,6 @@ version: 2.1
 
 orbs:
   android: circleci/android@2.1.2
-  gcp-cli: circleci/gcp-cli@2.2.0
 
 jobs:
   unit-test:
@@ -72,10 +71,6 @@ workflows:
   test-and-build:
     jobs:
       - unit-test
-      - 'android/run-ui-tests':
-          filters:
-            branches:
-              ignore: main # regular commits
       - android-test:
           matrix:
             alias: android-test-all
