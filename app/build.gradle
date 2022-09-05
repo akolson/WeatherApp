@@ -4,6 +4,9 @@ plugins {
     id 'com.google.dagger.hilt.android'
     id 'kotlin-kapt'
 }
+apply {
+    from "$project.rootDir/tools/script-lint.gradle"
+}
 
 android {
     compileSdk 32
