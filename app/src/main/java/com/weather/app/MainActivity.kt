@@ -3,14 +3,12 @@ package com.weather.app
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
-import com.google.gson.Gson
 import com.weather.app.core.util.UiTheme
 import com.weather.app.databinding.ActivityMainBinding
 import com.weather.app.features.weather.presentation.WeatherForecastAdapter
@@ -31,7 +29,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         viewModel.weatherInfoState.observe(this) { weatherStatInfo ->
-            Log.e("weatherStatInfo", Gson().toJson(weatherStatInfo))
             binding.apply {
                 val weatherInfo = weatherStatInfo?.weatherInfo
                 val weatherData = weatherInfo?.data
@@ -54,12 +51,14 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 val temperature = weatherData?.main
-                val currentTemperature = (temperature?.temp ?: "-").toString()
+                val currentTemperature = (temperature?.temp?.toInt() ?: "-").toString()
                 textViewTemperature.text = currentTemperature
                 layoutCurrentWeather.apply {
-                    layoutMin.textViewTemperature.text = (temperature?.temp_min ?: "-").toString()
+                    layoutMin.textViewTemperature.text =
+                        (temperature?.temp_min?.toInt() ?: "-").toString()
                     layoutCurrent.textViewTemperature.text = currentTemperature
-                    layoutMax.textViewTemperature.text = (temperature?.temp_max ?: "-").toString()
+                    layoutMax.textViewTemperature.text =
+                        (temperature?.temp_max?.toInt() ?: "-").toString()
                 }
                 recyclerViewForecast.apply {
                     setHasFixedSize(true)

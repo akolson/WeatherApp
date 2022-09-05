@@ -4,10 +4,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.weather.app.R
+import com.weather.app.core.util.Global
 import com.weather.app.databinding.ListItemForecastBinding
 import com.weather.app.features.weather.data.remote.WeatherInfoApi
 import com.weather.app.features.weather.domain.model.WeatherData
-import kotlinx.datetime.toLocalDate
 
 class WeatherForecastAdapter(
     private var forecasts: List<WeatherData>
@@ -35,10 +35,7 @@ class WeatherForecastAdapter(
             binding.apply {
                 val forecastDate = weatherData.dtTxt
                 if (forecastDate != null) {
-                    val forecastLocalDate = forecastDate.toLocalDate()
-                    val dayOfWeek = forecastLocalDate.dayOfWeek.name
-                    val displayDay = dayOfWeek.lowercase().replaceFirstChar(Char::titlecase)
-                    textViewDay.text = displayDay
+                    textViewDay.text = Global.fromDateToDisplayDay(forecastDate)
                 }
                 val icon = when (weatherData.weather?.getOrNull(0)?.main) {
                     WeatherInfoApi.WEATHER_CLOUDS -> R.drawable.ic_partly_sunny
@@ -50,7 +47,7 @@ class WeatherForecastAdapter(
                     imageViewIcon.setBackgroundResource(icon)
                 }
                 layoutTemperature.textViewTemperature.text =
-                    (weatherData.main?.temp ?: "-").toString()
+                    (weatherData.main?.temp?.toInt() ?: "-").toString()
             }
         }
     }

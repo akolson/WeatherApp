@@ -1,5 +1,6 @@
 package com.weather.app.features.weather.data.remote.dto
 
+import com.weather.app.core.util.Global
 import com.weather.app.features.weather.domain.model.WeatherData
 import com.weather.app.features.weather.domain.model.WeatherForecast
 
@@ -21,12 +22,14 @@ data class WeatherForecastDto(
     }
 
     private fun getSingleForecastPerDay(): List<WeatherData> {
-        val list = list.map {
-            it.dt_txt = it.dt_txt?.split(" ")?.getOrNull(0)
-            it.toWeatherData()
-        }.distinctBy { it.dtTxt }.sortedBy { it.dt }.toMutableList()
+        val forecastsByDay = list.groupBy {
+            Global.fromDateToLocalDateTime(it.dt_txt)?.dayOfWeek?.name
+        }
+        val forecasts = forecastsByDay.map { day ->
+            day.value.maxBy { (it.main?.temp)!! }.toWeatherData()
+        }.sortedBy { it.dt }.toMutableList()
         //Excludes the current day from forecasts
-        list.removeAt(0)
-        return list
+        forecasts.removeAt(0)
+        return forecasts
     }
 }
